@@ -1,5 +1,5 @@
 [SQL]
 host = localhost
-user = utilParcAuto
-passwd = parcAutoUtil
-base = parcauto
+user = utilBDTheque
+passwd = bdthequeutil
+base = bdtheque
