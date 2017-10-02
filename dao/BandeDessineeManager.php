@@ -51,7 +51,7 @@ class BandeDessineeManager {
             if (!empty($bandeDessinee->bd_id)) {
                 $sql = "select * from bandesdessinees where bd_id = $bandeDessinee->bd_id";
             } elseif (!empty($bandeDessinee->bd_titre)) {
-                $sql = "select * from bandesdessinees where bd_titre = '$people->name'";
+                $sql = "select * from bandesdessinees where bd_titre = '$bandeDessinee->bd_titre'";
             }
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
@@ -90,7 +90,7 @@ class BandeDessineeManager {
                     . "bd_resume = $bandeDessinee->bd_resume, "
                     . "bd_image = $bandeDessinee->bd_image, "
                     . "bd_auteur_id = $bandeDessinee->bd_auteur_id " 
-                    . "WHERE bd_id = $bandeDessinee->id";
+                    . "WHERE bd_id = $bandeDessinee->bd_id";
             $result = Connexion::select($sql);
         } catch (MySQLException $e) {
             die($e->retourneErreur());

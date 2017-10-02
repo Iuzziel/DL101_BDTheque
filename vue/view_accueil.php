@@ -1,13 +1,15 @@
 <ul>
 <?php foreach ($affichageListBD as $bd) : ?>
     <form action="" method="get">
-        <button type="submit" name="detail" value="<?= $bd->bd_id ?>">
-            <img src="img/<?= $bd->bd_image ?>" alt="Couverture de <?= $bd->bd_titre ?>" style="width:367px;height:500px;"/>
+        <input type="hidden" name="choix" value="detail" />
+        <button type="submit" name="bd_id" value="<?= $bd->bd_id ?>">
+            <img src="img/<?= $bd->bd_image ?>" 
+                 alt="Couverture de <?= $bd->bd_titre ?>" 
+                 style="width:25%;height:25%;"/>
         </button>
         <li>
+            Auteur : <?= $aut = AuteurManager::getAuteurNom($bd->bd_auteur_id);?> <br/>
             Titre : <?= $bd->bd_titre ?> <br/>
-            Auteur : <?= $bd->bd_auteur_id ?> <br/>
-            Resumé : <?= $bd->bd_resume; ?>
         </li>
     </form>
 <?php endforeach; ?>
