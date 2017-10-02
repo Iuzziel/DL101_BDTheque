@@ -9,11 +9,15 @@
     </p>
 </section>
 <section id="commentaire">
+    <table>
 <?php foreach ($rsCom as $com) : ?>
-    <p>
-        Auteur : <?= $com->com_auteur; ?> <br/>
-        Date : <?= $com->com_date; ?> <br/>
-        Commentaire : <?= $com->com_texte; ?> <br/>
-    </p>
+    <?php if ($com->com_mod == 1) : ?>
+        <tr>
+            <td>Auteur : <?= $com->com_auteur; ?> </td>
+            <td>Date : <?= $com->com_date; ?> </td>
+            <td>Commentaire : <?= $com->com_texte; ?> </td>
+        </tr>
+    <?php endif; ?>
 <?php endforeach; ?>
+    </table>
 </section>

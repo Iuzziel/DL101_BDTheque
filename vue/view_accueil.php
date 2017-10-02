@@ -14,3 +14,11 @@
     </form>
 <?php endforeach; ?>
 </ul>
+<form method="get" action="">
+    <input type="hidden" name="offset" value="<?= $indicePageOffset - 5 ?>" />
+    <input type="submit" value="Précédent" />
+</form>
+<form method="get">
+    <input type="hidden" name="offset" value="<?= $indicePageOffset + 5 ?>" />
+    <input type="submit" value="Suivant" />
+</form>

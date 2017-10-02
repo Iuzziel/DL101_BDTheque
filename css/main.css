@@ -1,0 +1,16 @@
+body {
+    background-color: lightblue;
+}
+
+section {
+    background-color: wheat;
+}
+
+#commentaire table{
+        border: solid black;
+}
+
+#commentaire td{
+    border: solid lightgrey;
+    padding: 2px;
+}

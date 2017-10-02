@@ -17,9 +17,19 @@
     $detail_aut = new Auteur();
     $detail_tCom = Array();
     $detail_Com = new Commentaire();
+    $indicePageOffset = 0;
 
     if (isset($_GET['choix'])) $sChoix = $_GET['choix'];
-
+    
+    // Récupère l'offset par rapport a l'affichage des bd.
+    if (isset($_GET['offset'])){
+        if (!($_GET['offset'] < 0)) {
+            $indicePageOffset = $_GET['offset'];
+        }else{
+            $indicePageOffset = 0;
+        }
+    }
+    
     // Récupère les coordonnées de l'abonné en cas d'ajout ou de mise à jour
     if (($sChoix == 'detail') 
             || ($sChoix == 'gestionAbonneMAJ')){
@@ -55,7 +65,7 @@
             $sTitre2 = 'Détail de la BD';
             break;
         default :
-            $affichageListBD = BandeDessineeManager::getHowManyBD(5, 0);      
+            $affichageListBD = BandeDessineeManager::getHowManyBD(5, $indicePageOffset);      
     }
 
     // Choix de l'affichage
