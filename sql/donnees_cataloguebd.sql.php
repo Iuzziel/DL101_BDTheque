@@ -115,5 +115,9 @@ INSERT INTO `liens_bd_themes` (`lien_bd_id`, `lien_themes_id`) VALUES
 (57, 7),
 (3, 9);
 
+--
+-- Contenu de la table `membres`
+--
 
-
+INSERT INTO `membres` (`membre_pseudo`, `membre_mdp`) VALUES
+('admin', 'afpa');

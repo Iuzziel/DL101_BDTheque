@@ -27,6 +27,7 @@ class Connexion {
             } else {
                 throw new MySQLException("Impossible de trouver le fichier de configuration 'ini/sql.ini'");
             }
+            // Commenter le echo pour enlever la notification de connexion à la base
             echo 'Connexion à la base<br>';
             // Pas de try ... catch ici,on laisse l'appelant gérer l'erreur
             try {

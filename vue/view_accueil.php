@@ -1,3 +1,8 @@
+<p>
+    <form action="" method="get">
+        <input type="submit" name="choix" value="admin" />
+    </form>
+</p>
 <ul>
 <?php foreach ($affichageListBD as $bd) : ?>
     <form action="" method="get">

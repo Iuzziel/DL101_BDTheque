@@ -64,20 +64,25 @@ class CommentaireManager {
     }
     
     /**
-     * Insère un enregistrement dans la base
+     * Insère un enregistrement dans la base.
+     * Protection contre les injections sql par prepared statement
      * 
      * @param Commentaire $commentaires
-     * @return Objet de type PDOStatement
+     * @return int 1 si tout s'est bien passé
      */
     public static function setCommentaire($commentaires) {
         try {
             $sql = "INSERT INTO commentaires(com_bd_id, com_mod, com_auteur, com_texte) " .
-                    "VALUES ($commentaires->com_bd_id, 0, '$commentaires->com_auteur', '$commentaires->com_texte')";
-            $result = Connexion::select($sql);
+                    "VALUES (?, 0, ?, ?)";
+            $stmt = Connexion::getConnexion()->prepare($sql);
+            $stmt->bindParam(1, $commentaires->com_bd_id);
+            $stmt->bindParam(2, $commentaires->com_auteur);
+            $stmt->bindParam(3, $commentaires->com_texte);
+            $stmt->execute();
+            return 1;
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
-        return $result;
     }
 
     /**

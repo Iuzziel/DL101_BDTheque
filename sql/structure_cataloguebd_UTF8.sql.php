@@ -92,6 +92,19 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`th_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=11 ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `membres`
+--
+
+CREATE TABLE IF NOT EXISTS `membres` (
+  `membre_id` int(11) NOT NULL AUTO_INCREMENT,
+  `membre_pseudo` varchar(30) COLLATE utf8_general_ci NOT NULL,
+  `membre_mdp` varchar(30) COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`membre_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=11 ;
+
 --
 -- Contraintes pour les tables exportées
 --

@@ -24,6 +24,7 @@
     //////////////Partie Visiteur////////////
     // Vérification si on arrive d'un formulaire, et si oui alimentation des variables
     if (isset($_GET['choix'])) $sChoix = $_GET['choix'];
+    
     if (isset($_POST['commentaire'])){
         $nouveauCom->com_bd_id = $_POST['bd_id'];
         $nouveauCom->com_auteur = $_POST['auteurCom'];
@@ -65,9 +66,24 @@
     }
     
     ///////////////Partie Administrateur///////////////////
+    // Validation d'un commentaire
+    if (isset($_POST['comMod']) && $_POST['comMod'] == "Valider"){
+        $detail_Com->com_id = $_POST['com_id'];            
+        $rsComEdit = CommentaireManager::getThisCommentaire($detail_Com);
+        foreach ($rsComEdit as $rsComVal){
+            $detail_Com->com_id = $rsComVal->com_id;       
+            $detail_Com->com_date = $rsComVal->com_date;       
+            $detail_Com->com_mod = 1;       
+            $detail_Com->com_bd_id = $rsComVal->com_bd_id;       
+            $detail_Com->com_auteur = $rsComVal->com_auteur;       
+            $detail_Com->com_texte = $rsComVal->com_texte;       
+        }
+        CommentaireManager::updCommentaire($detail_Com);
+        $detail_Com = new Commentaire();
+    }
     
     // Récupération du commentaire à éditer
-    if (isset($_POST['comEdit']) && $_POST['comEdit'] == "Edit"){
+    if (isset($_POST['comMod']) && $_POST['comMod'] == "Edit"){
         $tmpCom = new Commentaire();
         $tmpCom->com_id = $_POST['com_id'];
         $rsComEdit = CommentaireManager::getThisCommentaire($tmpCom);
@@ -81,30 +97,32 @@
         }
     }
 
+    // Suppression d'un commentaire
+    if (isset($_POST['comMod']) && $_POST['comMod'] == "Supprimer"){
+        $detail_Com->com_id = $_POST['com_id'];            
+        CommentaireManager::delCommentaire($detail_Com);
+        $detail_Com = new Commentaire();
+    }
+    
     // Validation de l'édition d'un commentaire
     if (isset($_POST['comEdit']) && $_POST['comEdit'] == "Valider"){
         $detail_Com->com_id = $_POST['com_id'];       
         $detail_Com->com_mod = 1;       
         $detail_Com->com_auteur = $_POST['auteurCom'];
         $detail_Com->com_texte = $_POST['texteCom'];       
-        var_dump($detail_Com);
         CommentaireManager::updCommentaire($detail_Com);
         $detail_Com = new Commentaire();
     }
-    // Récupère le numéro de ligne en cas de suppression ou de mise à jour
-    if (($sChoix == 'Modifier') || ($sChoix == 'ModifierMAJ') || ($sChoix == 'Supprimer'))  $sNumLigne = $_GET['numLigne'];
-
+    
     debug($sDebug, "\$sChoix=".$sChoix,'');
-
-    // Partie à changer pour conditionner l'arriver sur la page admin
-    if (true) {
-        $rsCom = CommentaireManager::getAllCommentaire();
-    }
     
     // Traitement des données
     switch ($sChoix) {
         case 'detail' :
             $sTitre2 = 'Détail de la BD';
+            break;
+        case 'admin' :
+            $rsCom = CommentaireManager::getAllCommentaire();
             break;
         default :
             $affichageListBD = BandeDessineeManager::getHowManyBD(5, $indicePageOffset);      
@@ -115,8 +133,10 @@
         case 'detail' :
             require('vue/view_detail.php');
             break;
-        default :
+        case 'admin' :
             require('vue/view_admin_commentaire.php');
-            //require('vue/view_accueil.php');
+            break;
+        default :
+            require('vue/view_accueil.php');
     }
 ?>
