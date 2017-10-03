@@ -18,9 +18,19 @@
     $detail_tCom = Array();
     $detail_Com = new Commentaire();
     $indicePageOffset = 0;
+    $nouveauCom = new Commentaire();
+    $varCtrlSql = 0;
 
+    //////////////Partie Visiteur////////////
+    // Vérification si on arrive d'un formulaire, et si oui alimentation des variables
     if (isset($_GET['choix'])) $sChoix = $_GET['choix'];
-    
+    if (isset($_POST['commentaire'])){
+        $nouveauCom->com_bd_id = $_POST['bd_id'];
+        $nouveauCom->com_auteur = $_POST['auteurCom'];
+        $nouveauCom->com_texte = $_POST['textCom'];
+        $varCtrlSql = CommentaireManager::setCommentaire($nouveauCom);
+    }
+
     // Récupère l'offset par rapport a l'affichage des bd.
     if (isset($_GET['offset'])){
         if (!($_GET['offset'] < 0)) {
@@ -30,7 +40,7 @@
         }
     }
     
-    // Récupère les coordonnées de l'abonné en cas d'ajout ou de mise à jour
+    // Récupère le détail de la bd
     if (($sChoix == 'detail') 
             || ($sChoix == 'gestionAbonneMAJ')){
         $detail_bd->bd_id = $_GET['bd_id'];
@@ -53,12 +63,44 @@
         
         $rsCom = CommentaireManager::getCommentaire($detail_bd);
     }
+    
+    ///////////////Partie Administrateur///////////////////
+    
+    // Récupération du commentaire à éditer
+    if (isset($_POST['comEdit']) && $_POST['comEdit'] == "Edit"){
+        $tmpCom = new Commentaire();
+        $tmpCom->com_id = $_POST['com_id'];
+        $rsComEdit = CommentaireManager::getThisCommentaire($tmpCom);
+        foreach ($rsComEdit as $rsComEditVal){
+            $detail_Com->com_id = $rsComEditVal->com_id;       
+            $detail_Com->com_date = $rsComEditVal->com_date;       
+            $detail_Com->com_mod = $rsComEditVal->com_mod;       
+            $detail_Com->com_bd_id = $rsComEditVal->com_bd_id;       
+            $detail_Com->com_auteur = $rsComEditVal->com_auteur;       
+            $detail_Com->com_texte = $rsComEditVal->com_texte;       
+        }
+    }
 
+    // Validation de l'édition d'un commentaire
+    if (isset($_POST['comEdit']) && $_POST['comEdit'] == "Valider"){
+        $detail_Com->com_id = $_POST['com_id'];       
+        $detail_Com->com_mod = 1;       
+        $detail_Com->com_auteur = $_POST['auteurCom'];
+        $detail_Com->com_texte = $_POST['texteCom'];       
+        var_dump($detail_Com);
+        CommentaireManager::updCommentaire($detail_Com);
+        $detail_Com = new Commentaire();
+    }
     // Récupère le numéro de ligne en cas de suppression ou de mise à jour
     if (($sChoix == 'Modifier') || ($sChoix == 'ModifierMAJ') || ($sChoix == 'Supprimer'))  $sNumLigne = $_GET['numLigne'];
 
     debug($sDebug, "\$sChoix=".$sChoix,'');
 
+    // Partie à changer pour conditionner l'arriver sur la page admin
+    if (true) {
+        $rsCom = CommentaireManager::getAllCommentaire();
+    }
+    
     // Traitement des données
     switch ($sChoix) {
         case 'detail' :
@@ -74,6 +116,7 @@
             require('vue/view_detail.php');
             break;
         default :
-            require('vue/view_accueil.php');
+            require('vue/view_admin_commentaire.php');
+            //require('vue/view_accueil.php');
     }
 ?>

@@ -5,14 +5,14 @@ class CommentaireManager {
     /**
      * Retourne tous les enregistrements de la table
      * 
-     * @return Auteur[]
+     * @return Commentaire[]
      */
     public static function getAllCommentaire() {
         // Pas besoin de se connecter à la base, la classe Connexion le fera si besoin.
         //PDO::query() retourne un objet PDOStatement, ou FALSE si une erreur survient. 
         // donc une exception est levée par la classe Connexion
         try {
-            $sql = 'SELECT * FROM auteurs';
+            $sql = 'SELECT * FROM commentaires';
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
             die($e->retourneErreur());
@@ -31,7 +31,9 @@ class CommentaireManager {
     public static function getCommentaire($bd) {
         try {
             if (!empty($bd)) {
-                $sql = "select * from commentaires where com_bd_id = $bd->bd_id";
+                $sql = "SELECT * FROM commentaires "
+                        . "WHERE com_bd_id = $bd->bd_id "
+                        . "ORDER BY com_date DESC";
             }
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
@@ -39,6 +41,82 @@ class CommentaireManager {
         }
         return $result;
     }
+    
+    /**
+     * Retourne les enregistrements de la table correspondant aux propriétés de
+     * l'objet passé en paramètre. La recherche s'effectue en fonction des propriétés
+     * renseignée, dans l'ordre 'id' puis 'name'
+     * 
+     * @param Commentaire $commentaire
+     * @return Commentaire[]
+     */
+    public static function getThisCommentaire($commentaire) {
+        try {
+            if (!empty($commentaire)) {
+                $sql = "SELECT * FROM commentaires "
+                        . "WHERE com_id = $commentaire->com_id";
+            }
+            $result = Connexion::select($sql, PDO::FETCH_OBJ);
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+        return $result;
+    }
+    
+    /**
+     * Insère un enregistrement dans la base
+     * 
+     * @param Commentaire $commentaires
+     * @return Objet de type PDOStatement
+     */
+    public static function setCommentaire($commentaires) {
+        try {
+            $sql = "INSERT INTO commentaires(com_bd_id, com_mod, com_auteur, com_texte) " .
+                    "VALUES ($commentaires->com_bd_id, 0, '$commentaires->com_auteur', '$commentaires->com_texte')";
+            $result = Connexion::select($sql);
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+        return $result;
+    }
+
+    /**
+     * Modifie les champs de la table à partir de son id
+     * 
+     * @param Commentaire $commentaires
+     * @return Objet de type PDOStatement
+     */
+    public static function updCommentaire($commentaires) {
+        try {
+            $sql = "UPDATE commentaires SET com_mod = $commentaires->com_mod, "
+                    . "com_auteur = '$commentaires->com_auteur', "
+                    . "com_texte = '$commentaires->com_texte' " 
+                    . "WHERE com_id = $commentaires->com_id";
+            $result = Connexion::select($sql);
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+        return $result;
+    }
+
+    /**
+     * Supprime un enregistrement dans la base
+     * 
+     * @param Commentaire $commentaires
+     * @return Objet de type PDOStatement
+     */
+    public static function delCommentaire($commentaires) {
+        try {
+            if (!empty($commentaires->com_id)) {
+                $sql = "DELETE FROM commentaires WHERE com_id = $commentaires->com_id";
+            }
+            $result = Connexion::select($sql);
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+        return $result;
+    }
+
 }
 
 ?>
