@@ -1,6 +1,9 @@
+<section>
+    <h2><?= $sTitre2 ?></h2>
+</section>
 <p>
     <form action="" method="get">
-        <input type="submit" name="choix" value="admin" />
+        <input type="submit" name="choix" value="login" />
     </form>
 </p>
 <ul>

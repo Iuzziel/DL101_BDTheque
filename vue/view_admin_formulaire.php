@@ -1,4 +1,7 @@
 <section>
+    <h2><?= $sTitre2 ?></h2>
+</section>
+<section>
     <h3>Ajout d'un nouvel auteur :</h3>
     <?php if (isset($msgAddAut) && $msgAddAut != '') echo "<p>$msgAddAut</p>";?>
     <form method="post" name="addAuteur">

@@ -42,8 +42,7 @@
     }
     
     // Récupère le détail de la bd
-    if (($sChoix == 'detail') 
-            || ($sChoix == 'gestionAbonneMAJ')){
+    if ($sChoix == 'detail'){
         $detail_bd->bd_id = $_GET['bd_id'];
         $rsBD = BandeDessineeManager::getBandeDessinee($detail_bd);
         foreach ($rsBD as $rsBDValue){
@@ -66,6 +65,26 @@
     }
     
     ///////////////Partie Administrateur///////////////////
+    // Validation de la connexion
+    if (isset($_POST['connexion']) && ($_POST['connexion'] == 'Valider')){
+        $tmpMembre = new Membre();
+        $tmpMembre->pseudo = $_POST['login'];
+        $tmpMembre->mdp = $_POST['password'];
+        
+        $tmpLogin = MembreManager::verifLogin($tmpMembre);
+        debug($sDebug, var_dump($tmpLogin), '');
+
+        if ($tmpLogin == 1){
+            $msgLogin = "Authentification réussi.";
+            $_SESSION['logon'] = 'ok';
+            $sChoix = 'admin';
+        } else {
+            $_SESSION['logon'] = 'nok';
+            $msgLogin = "Echec de l'authentification";
+            $sChoix = 'login';
+        }
+    }
+    
     // Validation d'un commentaire
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Valider"){
         $detail_Com->com_id = $_POST['com_id'];            
@@ -153,7 +172,11 @@
         case 'detail' :
             $sTitre2 = 'Détail de la BD';
             break;
+        case 'login' :
+            $sTitre2 = 'Connexion';
+            break;
         case 'admin' :
+            $sTitre2 = 'Partie Administrateur';
             $rsCom = CommentaireManager::getAllCommentaire();
             break;
         default :
@@ -165,7 +188,11 @@
         case 'detail' :
             require('vue/view_detail.php');
             break;
+        case 'login' :
+            require('vue/view_login.php');
+            break;
         case 'admin' :
+            require('vue/view_admin_formulaire.php');
             require('vue/view_admin_commentaire.php');
             break;
         default :
