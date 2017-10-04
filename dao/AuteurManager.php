@@ -71,12 +71,14 @@ class AuteurManager {
     public static function setAuteur($auteur) {
         try {
             $sql = "INSERT INTO auteurs(aut_nom) " .
-                    "VALUES '".ucfirst($auteur->aut_nom)."'";
-            $result = Connexion::select($sql);
+                    "VALUES (?)";
+            $stmt = Connexion::getConnexion()->prepare($sql);
+            $stmt->bindParam(1, $auteur->aut_nom);
+            $stmt->execute();
+            return 1;
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
-        return $result;
     }
 
     /**

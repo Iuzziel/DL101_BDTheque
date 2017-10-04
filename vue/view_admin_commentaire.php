@@ -1,5 +1,6 @@
 <?php require 'view_admin_formulaire.php' ;?>
 <section>
+    <h3>Commentaire en attente de modération :</h3>
     <table>
         <?php if ($detail_Com->com_id > 0) : ?>
         <tr>

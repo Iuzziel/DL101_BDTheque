@@ -69,13 +69,17 @@ class BandeDessineeManager {
     public static function setBandeDessinee($bandeDessinee) {
         try {
             $sql = "INSERT INTO bandesdessinees(bd_titre, bd_resume, bd_image, bd_auteur_id) " .
-                    "VALUES ('" . ucfirst($bandeDessinee->bd_titre) . 
-                    "',$bandeDessinee->bd_resume, $bandeDessinee->bd_image, $bandeDessinee->bd_auteur_id) ";
-            $result = Connexion::select($sql);
+                    "VALUES (?, ?, ?, ?)";
+            $stmt = Connexion::getConnexion()->prepare($sql);
+            $stmt->bindParam(1, $bandeDessinee->bd_titre);
+            $stmt->bindParam(2, $bandeDessinee->bd_resume);
+            $stmt->bindParam(3, $bandeDessinee->bd_image);
+            $stmt->bindParam(4, $bandeDessinee->bd_auteur_id);
+            $stmt->execute();
+            return 1;
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
-        return $result;
     }
 
     /**

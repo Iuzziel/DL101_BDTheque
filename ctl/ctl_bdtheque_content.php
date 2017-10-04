@@ -1,7 +1,7 @@
 <?php
     // Appel des fonctions externes
-    include_once('inc/modele.inc.php');
-    include_once('exp/mysqlexception.php');
+    include_once ('inc/modele.inc.php');
+    include_once ('exp/mysqlexception.php');
     include_once ('dao/Connexion.php');
     include_once ('cls/Auteur.class.php');
     include_once ('dao/AuteurManager.php');
@@ -112,6 +112,38 @@
         $detail_Com->com_texte = $_POST['texteCom'];       
         CommentaireManager::updCommentaire($detail_Com);
         $detail_Com = new Commentaire();
+    }
+    
+    // Ajout d'une BD
+    if (isset($_POST['BD']) && $_POST['BD'] == 'Ajouter') {
+        $uploaddir = 'img/';
+        $uploadfile = $uploaddir . $_FILES['couverture']['name'];
+        $msgUpload = '';
+        
+        if (move_uploaded_file($_FILES['couverture']['tmp_name'], $uploadfile)) {
+            $bdTemp = new BandesDessinee();
+            $bdTemp->bd_titre = $_POST['titre'];
+            $bdTemp->bd_resume = $_POST['resume'];
+            $bdTemp->bd_auteur_id = $_POST['id_auteur'];
+            $bdTemp->bd_image = $_FILES['couverture']['name'];
+            BandeDessineeManager::setBandeDessinee($bdTemp);
+            $msgUpload = "Ajout de la BD réussi.";
+        } else {
+            $msgUpload = 'Erreur upload impossible.';
+        }
+    }
+    
+    // Ajout d'un auteur
+    if (isset($_POST['auteur']) && $_POST['auteur'] == 'Ajouter') {
+        $msgAddAut = '';
+        $addAuteur = new Auteur();
+        $addAuteur->aut_nom = $_POST['nomAuteur'];
+        try{
+            AuteurManager::setAuteur($addAuteur);
+            $msgAddAut = 'Ajout réussi.';
+        } catch (Exception $ex) {
+            $msgAddAut = 'Erreur.';
+        }
     }
     
     debug($sDebug, "\$sChoix=".$sChoix,'');
