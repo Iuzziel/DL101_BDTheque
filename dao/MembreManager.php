@@ -12,21 +12,26 @@ class MembreManager {
      * @return Membre[]
      */
     public static function verifLogin($membre) {
-        $result = '';
         try {
             if (!empty($membre->pseudo) && !empty($membre->mdp)) {
-                $sql = "select nom,prenom from membre where login = '" .
-                        addslashes($membre->pseudo)
-                        . "' AND mdp_md5 = '" .
-                        $membre->mdp
-                        . "'";
-
-                $result = Connexion::select($sql, PDO::FETCH_OBJ);
+                $sql = "SELECT COUNT(*) FROM membres "
+                        . "WHERE membre_pseudo = ? "
+                        . "AND membre_mdp = ?";
+                $stmt = Connexion::getConnexion()->prepare($sql);
+                $stmt->bindParam(1, $membre->pseudo);
+                $stmt->bindParam(2, $membre->mdp);
+                if($stmt->execute()){
+																				$tmpStm = $stmt->fetchAll(PDO::FETCH_NUM);
+																				if($tmpStm[0][0] == '1'){
+																								return 1;
+																				}
+																}else{
+																				return 0;
+																}
             }
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
-        return $result;
     }
 
 }

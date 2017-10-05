@@ -9,10 +9,12 @@
     include_once ('dao/BandeDessineeManager.php');
     include_once ('cls/Commentaire.class.php');
     include_once ('dao/CommentaireManager.php');
+    include_once ('cls/Membre.class.php');
+    include_once ('dao/MembreManager.php');
 
     // Initialisation des variables
     $sChoix  = 'accueil';
-    $sTitre2 = 'Sous Titre par defaut';
+    $sTitre2 = 'Bienvenu sur la BDThèque';
     $detail_bd = new BandesDessinee();
     $detail_aut = new Auteur();
     $detail_tCom = Array();
@@ -42,8 +44,7 @@
     }
     
     // Récupère le détail de la bd
-    if (($sChoix == 'detail') 
-            || ($sChoix == 'gestionAbonneMAJ')){
+    if ($sChoix == 'detail'){
         $detail_bd->bd_id = $_GET['bd_id'];
         $rsBD = BandeDessineeManager::getBandeDessinee($detail_bd);
         foreach ($rsBD as $rsBDValue){
@@ -66,6 +67,34 @@
     }
     
     ///////////////Partie Administrateur///////////////////
+				//Verif si la connexiont est deja active
+				if(isset($_SESSION['logon']) && $_SESSION['logon'] == 'ok' && $sChoix == 'login'){
+								$sChoix = 'admin';
+				}else if (isset($_POST['connexion']) && $_POST['connexion'] == 'Valider'){
+								// Validation de la connexion
+        $tmpMembre = new Membre();
+        $tmpMembre->pseudo = $_POST['login'];
+        $tmpMembre->mdp = $_POST['password'];
+        
+        $tmpLogin = MembreManager::verifLogin($tmpMembre);
+
+        if ($tmpLogin == 1){
+            $msgLogin = "Authentification réussi.";
+            $_SESSION['logon'] = 'ok';
+            $sChoix = 'admin';
+        } else {
+            $_SESSION['logon'] = 'nok';
+            $msgLogin = "Echec de l'authentification";
+            $sChoix = 'login';
+        }
+    }
+				
+    //Deconnexion
+				if (isset($_POST['connexion']) && $_POST['connexion'] == 'Deconnexion'){
+								$_SESSION['logon'] = 'nok';
+								session_destroy();
+				}
+				
     // Validation d'un commentaire
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Valider"){
         $detail_Com->com_id = $_POST['com_id'];            
@@ -84,9 +113,10 @@
     
     // Récupération du commentaire à éditer
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Edit"){
+								$sChoix = 'admin';
         $tmpCom = new Commentaire();
-        $tmpCom->com_id = $_POST['com_id'];
-        $rsComEdit = CommentaireManager::getThisCommentaire($tmpCom);
+        $detail_Com->com_id = $_POST['com_id'];
+        $rsComEdit = CommentaireManager::getThisCommentaire($detail_Com);
         foreach ($rsComEdit as $rsComEditVal){
             $detail_Com->com_id = $rsComEditVal->com_id;       
             $detail_Com->com_date = $rsComEditVal->com_date;       
@@ -128,8 +158,10 @@
             $bdTemp->bd_image = $_FILES['couverture']['name'];
             BandeDessineeManager::setBandeDessinee($bdTemp);
             $msgUpload = "Ajout de la BD réussi.";
+												$sChoix = 'admin';
         } else {
             $msgUpload = 'Erreur upload impossible.';
+												$sChoix = 'admin';
         }
     }
     
@@ -153,7 +185,11 @@
         case 'detail' :
             $sTitre2 = 'Détail de la BD';
             break;
+        case 'login' :
+            $sTitre2 = 'Connexion';
+            break;
         case 'admin' :
+            $sTitre2 = 'Partie Administrateur';
             $rsCom = CommentaireManager::getAllCommentaire();
             break;
         default :
@@ -165,8 +201,11 @@
         case 'detail' :
             require('vue/view_detail.php');
             break;
+        case 'login' :
+            require('vue/view_login.php');
+            break;
         case 'admin' :
-            require('vue/view_admin_commentaire.php');
+            require('vue/view_admin_aside.php');
             break;
         default :
             require('vue/view_accueil.php');

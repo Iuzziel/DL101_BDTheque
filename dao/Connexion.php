@@ -28,7 +28,7 @@ class Connexion {
                 throw new MySQLException("Impossible de trouver le fichier de configuration 'ini/sql.ini'");
             }
             // Commenter le echo pour enlever la notification de connexion à la base
-            echo 'Connexion à la base<br>';
+            //echo 'Connexion à la base<br>';
             // Pas de try ... catch ici,on laisse l'appelant gérer l'erreur
             try {
                 self::$cnx = new PDO("mysql:host=$host;dbname=$base;charset=utf8", $user, $passwd,
