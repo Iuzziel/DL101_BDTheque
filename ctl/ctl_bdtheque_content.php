@@ -22,6 +22,7 @@
     $indicePageOffset = 0;
     $nouveauCom = new Commentaire();
     $varCtrlSql = 0;
+				$msgDelBD = "";
 
     //////////////Partie Visiteur////////////
     // Vérification si on arrive d'un formulaire, et si oui alimentation des variables
@@ -165,6 +166,23 @@
         }
     }
     
+				// Suppression d'une BD
+				if (isset($_POST['BD']) && $_POST['BD'] == 'Supprimer') {
+								$bdTemp = new BandesDessinee();
+								$bdTemp->bd_id = $_POST['bd_id'];
+        $rsDelBD = BandeDessineeManager::getBandeDessinee($bdTemp);
+								if ($rsDelBD != NULL){
+												foreach	($rsDelBD AS $valRsDelBD){
+																$tmpDelBD = BandeDessineeManager::delBandeDessinee($valRsDelBD);
+																unlink('img/'.$valRsDelBD->bd_image);
+																Echo "<section>BD ".$valRsDelBD->bd_titre." supprimée.</section>";
+																$sChoix = '';
+												}												
+								}else{
+												Echo "Echec de la suppression.";
+								}
+    }
+				
     // Ajout d'un auteur
     if (isset($_POST['auteur']) && $_POST['auteur'] == 'Ajouter') {
         $msgAddAut = '';
@@ -173,8 +191,25 @@
         try{
             AuteurManager::setAuteur($addAuteur);
             $msgAddAut = 'Ajout réussi.';
+												$sChoix = 'admin';
         } catch (Exception $ex) {
             $msgAddAut = 'Erreur.';
+												$sChoix = 'admin';
+        }
+    }
+				
+				//Supprimer un auteur
+				if (isset($_POST['auteur']) && $_POST['auteur'] == 'Supprimer') {
+        $msgAddAut = '';
+        $delAuteur = new Auteur();
+        $delAuteur->aut_id = $_POST['id_auteur'];
+        try{
+            AuteurManager::delAuteur($delAuteur);
+            $msgAddAut = 'Suppression réussi.';
+												$sChoix = 'admin';
+        } catch (Exception $ex) {
+            $msgAddAut = 'Erreur.';
+												$sChoix = 'admin';
         }
     }
     
@@ -195,19 +230,19 @@
         default :
             $affichageListBD = BandeDessineeManager::getHowManyBD(5, $indicePageOffset);      
     }
-
+				
     // Choix de l'affichage
-    switch ($sChoix) {
-        case 'detail' :
-            require('vue/view_detail.php');
-            break;
-        case 'login' :
-            require('vue/view_login.php');
-            break;
-        case 'admin' :
-            require('vue/view_admin_aside.php');
-            break;
-        default :
-            require('vue/view_accueil.php');
-    }
+				switch ($sChoix) {
+								case 'detail' :
+												require('vue/view_detail.php');
+												break;
+								case 'login' :
+												require('vue/view_login.php');
+												break;
+								case 'admin' :
+												require('vue/view_admin_aside.php');
+												break;
+								default :
+												require('vue/view_accueil.php');
+				}
 ?>

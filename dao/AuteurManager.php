@@ -12,7 +12,7 @@ class AuteurManager {
         //PDO::query() retourne un objet PDOStatement, ou FALSE si une erreur survient. 
         // donc une exception est levée par la classe Connexion
         try {
-            $sql = 'SELECT * FROM auteurs';
+            $sql = 'SELECT * FROM auteurs ORDER BY aut_nom ASC';
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
             die($e->retourneErreur());
