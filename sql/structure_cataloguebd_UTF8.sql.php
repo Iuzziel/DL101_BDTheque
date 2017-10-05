@@ -119,7 +119,7 @@ ALTER TABLE `bandesdessinees`
 -- Contraintes pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  ADD CONSTRAINT `fk_bd_comment` FOREIGN KEY (`com_bd_id`) REFERENCES `bandesdessinees` (`bd_id`);
+  ADD CONSTRAINT `fk_bd_comment` FOREIGN KEY (`com_bd_id`) REFERENCES `bandesdessinees` (`bd_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `liens_bd_themes`
