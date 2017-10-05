@@ -8,5 +8,5 @@
         <input type="submit" name="connexion" value="Valider" />
     </form>
     <?php if (isset($msgLogin) && $msgLogin == "Echec de l'authentification") 
-        echo "<span>$msgLogin</span>" ; ?>
+        echo "<span class=\"label label-danger\" >$msgLogin</span>" ; ?>
 </section>

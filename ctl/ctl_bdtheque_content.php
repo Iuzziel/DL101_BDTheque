@@ -9,10 +9,12 @@
     include_once ('dao/BandeDessineeManager.php');
     include_once ('cls/Commentaire.class.php');
     include_once ('dao/CommentaireManager.php');
+    include_once ('cls/Membre.class.php');
+    include_once ('dao/MembreManager.php');
 
     // Initialisation des variables
     $sChoix  = 'accueil';
-    $sTitre2 = 'Sous Titre par defaut';
+    $sTitre2 = 'Bienvenu sur la BDThèque';
     $detail_bd = new BandesDessinee();
     $detail_aut = new Auteur();
     $detail_tCom = Array();
@@ -72,7 +74,6 @@
         $tmpMembre->mdp = $_POST['password'];
         
         $tmpLogin = MembreManager::verifLogin($tmpMembre);
-        debug($sDebug, var_dump($tmpLogin), '');
 
         if ($tmpLogin == 1){
             $msgLogin = "Authentification réussi.";
@@ -104,8 +105,8 @@
     // Récupération du commentaire à éditer
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Edit"){
         $tmpCom = new Commentaire();
-        $tmpCom->com_id = $_POST['com_id'];
-        $rsComEdit = CommentaireManager::getThisCommentaire($tmpCom);
+        $detail_Com->com_id = $_POST['com_id'];
+        $rsComEdit = CommentaireManager::getThisCommentaire($detail_Com);
         foreach ($rsComEdit as $rsComEditVal){
             $detail_Com->com_id = $rsComEditVal->com_id;       
             $detail_Com->com_date = $rsComEditVal->com_date;       
@@ -192,8 +193,7 @@
             require('vue/view_login.php');
             break;
         case 'admin' :
-            require('vue/view_admin_formulaire.php');
-            require('vue/view_admin_commentaire.php');
+            require('vue/view_admin_aside.php');
             break;
         default :
             require('vue/view_accueil.php');

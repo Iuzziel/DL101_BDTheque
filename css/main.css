@@ -12,6 +12,7 @@ section {
     background-color: wheat;
     border-radius: 12px 12px;
     padding: 5px;
+				margin: auto;
 }
 
 #commentaire table{
@@ -24,12 +25,30 @@ section {
     padding: 2px;
 }
 
-footer {
-    background-color: lightcyan;
-    padding: 5px;
-    margin-top: 12px;
-}
-
 .gras {
     font-weight: bold;
+}
+
+.container{
+				margin-bottom: 36px;
+}
+
+
+#btnCouv {
+				border-style: none;
+				padding: 2px;
+}
+
+#footer-marge{
+				margin-bottom: 36px;
+}
+
+footer{
+				background-color: wheat;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				height: 30px;
+				text-align: center;
 }
