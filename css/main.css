@@ -11,8 +11,7 @@ header{
 section {
     background-color: wheat;
     border-radius: 12px 12px;
-    padding: 5px;
-				margin: auto;
+    padding: 6px;
 }
 
 #commentaire table{
@@ -41,6 +40,10 @@ section {
 
 #footer-marge{
 				margin-bottom: 36px;
+}
+
+.row{
+				margin-bottom: 6px;
 }
 
 footer{

@@ -32,6 +32,6 @@
 												<?php endif; ?>
 								<?php endforeach; ?>
 												</table>
-								</div>
+								</div><!--Fin table-->
 				</section>
-</div>
+</div><!--Fin row-->

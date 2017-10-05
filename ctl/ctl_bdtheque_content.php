@@ -67,8 +67,11 @@
     }
     
     ///////////////Partie Administrateur///////////////////
-    // Validation de la connexion
-    if (isset($_POST['connexion']) && ($_POST['connexion'] == 'Valider')){
+				//Verif si la connexiont est deja active
+				if(isset($_SESSION['logon']) && $_SESSION['logon'] == 'ok' && $sChoix == 'login'){
+								$sChoix = 'admin';
+				}else if (isset($_POST['connexion']) && $_POST['connexion'] == 'Valider'){
+								// Validation de la connexion
         $tmpMembre = new Membre();
         $tmpMembre->pseudo = $_POST['login'];
         $tmpMembre->mdp = $_POST['password'];
@@ -85,7 +88,13 @@
             $sChoix = 'login';
         }
     }
-    
+				
+    //Deconnexion
+				if (isset($_POST['connexion']) && $_POST['connexion'] == 'Deconnexion'){
+								$_SESSION['logon'] = 'nok';
+								session_destroy();
+				}
+				
     // Validation d'un commentaire
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Valider"){
         $detail_Com->com_id = $_POST['com_id'];            
@@ -104,6 +113,7 @@
     
     // Récupération du commentaire à éditer
     if (isset($_POST['comMod']) && $_POST['comMod'] == "Edit"){
+								$sChoix = 'admin';
         $tmpCom = new Commentaire();
         $detail_Com->com_id = $_POST['com_id'];
         $rsComEdit = CommentaireManager::getThisCommentaire($detail_Com);
@@ -148,8 +158,10 @@
             $bdTemp->bd_image = $_FILES['couverture']['name'];
             BandeDessineeManager::setBandeDessinee($bdTemp);
             $msgUpload = "Ajout de la BD réussi.";
+												$sChoix = 'admin';
         } else {
             $msgUpload = 'Erreur upload impossible.';
+												$sChoix = 'admin';
         }
     }
     

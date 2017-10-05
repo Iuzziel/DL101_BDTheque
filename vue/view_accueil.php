@@ -1,5 +1,6 @@
 <form action="" method="get">
-				<input type="submit" name="choix" value="login" />
+				<input type="hidden" name="choix" value="login" />
+				<input type="submit" name="affChoixLog" value="Administration" />
 </form>
 				
 <div class="container">
@@ -25,13 +26,16 @@
 				</div><!--Fin de Row-->
 
 				<div class="row">
-								<div class="col-sm-6">
+								<div class="col-sm-4">
 												<form method="get" action="">
 																<input type="hidden" name="offset" value="<?= $indicePageOffset - 5 ?>" />
 																<input type="submit" value="Précédent" />
 												</form>
 								</div><!--Fin de Col-->
-								<div class="col-sm-6">
+								<div class="col-sm-4">
+												<span>Page - <?= (($indicePageOffset / 5) + 1) ?></span>
+								</div><!--Fin de Col-->
+								<div class="col-sm-4">
 												<form method="get">
 																<input type="hidden" name="offset" value="<?= $indicePageOffset + 5 ?>" />
 																<input type="submit" value="Suivant" />
