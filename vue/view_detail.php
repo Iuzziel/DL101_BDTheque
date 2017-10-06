@@ -14,7 +14,12 @@
     <p>
         Titre : <?= $detail_bd->bd_titre ?> <br/>
         Auteur : <?= $detail_aut->aut_nom ?> <br/>
-        Resumé : <?= $detail_bd->bd_resume; ?>
+        Resumé : <?= $detail_bd->bd_resume; ?> <br/>
+								Thème(s) :
+												<?php $rsBDTh = ThemeManager::getBdTheme($detail_bd->bd_id); ?>
+												<?php foreach ($rsBDTh as $ValBDTh) : ?>
+												<?= $ValBDTh->th_intitule; ?>,
+												<?php endforeach; ?>
     </p>
 </section>
 <section id="commentaire">

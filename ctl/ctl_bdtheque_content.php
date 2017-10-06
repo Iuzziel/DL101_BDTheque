@@ -11,6 +11,8 @@
     include_once ('dao/CommentaireManager.php');
     include_once ('cls/Membre.class.php');
     include_once ('dao/MembreManager.php');
+    include_once ('cls/Theme.class.php');
+    include_once ('dao/ThemeManager.php');
 
     // Initialisation des variables
     $sChoix  = 'accueil';
@@ -23,7 +25,8 @@
     $nouveauCom = new Commentaire();
     $varCtrlSql = 0;
 				$msgDelBD = "";
-
+				$msgAddBDTh = "";
+				
     //////////////Partie Visiteur////////////
     // Vérification si on arrive d'un formulaire, et si oui alimentation des variables
     if (isset($_GET['choix'])) $sChoix = $_GET['choix'];
@@ -158,6 +161,7 @@
             $bdTemp->bd_auteur_id = $_POST['id_auteur'];
             $bdTemp->bd_image = $_FILES['couverture']['name'];
             BandeDessineeManager::setBandeDessinee($bdTemp);
+												ThemeManager::setLienTheme(Connexion::dernierId(),	$_POST['id_theme']);
             $msgUpload = "Ajout de la BD réussi.";
 												$sChoix = 'admin';
         } else {
@@ -182,6 +186,18 @@
 												Echo "Echec de la suppression.";
 								}
     }
+				
+				// Ajout d'un thème à une BD
+				if (isset($_POST['addBDTheme']) && $_POST['addBDTheme'] == 'Ajouter') {
+								if(isset($_POST['id_bd']) && isset($_POST['id_theme'])){
+												ThemeManager::setLienTheme($_POST['id_bd'],	$_POST['id_theme']);
+												$msgAddBDTh = 'Ajout de thème réussi';
+								}else{
+												$msgAddBDTh = "Erreur dans l'ajout de thème";
+								}
+								
+				}
+				
 				
     // Ajout d'un auteur
     if (isset($_POST['auteur']) && $_POST['auteur'] == 'Ajouter') {

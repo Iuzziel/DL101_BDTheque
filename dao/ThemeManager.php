@@ -30,10 +30,10 @@ class ThemeManager {
      */
     public static function getTheme($theme) {
         try {
-            if (!empty($auteur->aut_id)) {
-                $sql = "select * from themes where th_id = $theme->aut_id";
-            } elseif (!empty($auteur->aut_nom)) {
-                $sql = "select * from themes where th_intitule = '$theme->aut_nom'";
+            if (!empty($theme->th_id)) {
+                $sql = "select * from themes where th_id = $theme->th_id";
+            } elseif (!empty($theme->th_intitule)) {
+                $sql = "select * from themes where th_intitule = '$theme->th_intitule'";
             }
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
@@ -44,38 +44,83 @@ class ThemeManager {
     
     /**
      * Retourne les enregistrement de la table correspondant a l'id passé en parametre.
-     * @param type $auteurID
+     * @param type $themeID
      * @return type
      */
-    public static function getAuteurNom($auteurID) {
+    public static function getThemeNom($themeID) {
+								$tmpMsg = '';
         try {
-            if (!empty($auteurID)) {
-                $sql = "select * from auteurs where aut_id = $auteurID";
+            if (!empty($themeID)) {
+                $sql = "select * from themes where th_id = $themeID";
             }
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
         foreach ($result as $value) {
-            $tmpMsg = $value->aut_nom;
+            $tmpMsg .= $value->aut_nom;
         }
         return $tmpMsg;
     }
 
+				/**
+     * Retourne les enregistrement de la table correspondant a l'id passé en parametre.
+     * 
+     * @param BandeDessinee->bd_id $LienIdBD
+     * @return Objet de type PDOStatement
+     */
+    public static function getBdTheme($LienIdBD) {
+        try {
+												if (!empty($LienIdBD)) {
+																$sql = "SELECT th.th_intitule "
+																								. "FROM `themes` th "
+																								. "JOIN `liens_bd_themes` li "
+																								. "ON li.lien_themes_id = th.th_id "
+																								. "JOIN bandesdessinees bd "
+																								. "ON li.lien_bd_id = bd.bd_id "
+																								. "WHERE bd_id = $LienIdBD";
+												}
+												$result = Connexion::select($sql, PDO::FETCH_OBJ);
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+								return $result;
+    }
+				
     /**
      * Insère un enregistrement dans la base
      * 
-     * @param Auteur $auteur
+     * @param Theme $theme
      * @return Objet de type PDOStatement
      */
-    public static function setAuteur($auteur) {
+    public static function setTheme($theme) {
         try {
-            $sql = "INSERT INTO auteurs(aut_nom) " .
+            $sql = "INSERT INTO themes(th_intitule) " .
                     "VALUES (?)";
             $stmt = Connexion::getConnexion()->prepare($sql);
-            $stmt->bindParam(1, $auteur->aut_nom);
+            $stmt->bindParam(1, ucfirst($theme->th_intitule));
             $stmt->execute();
             return 1;
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+    }
+				
+				/**
+     * Insère un enregistrement dans la base
+     * 
+     * @param Theme $theme
+     * @return Objet de type PDOStatement
+     */
+    public static function setLienTheme($LienIdBD, $LienIdTheme) {
+        try {
+            $sql = "INSERT INTO liens_bd_themes(lien_bd_id, lien_themes_id) " .
+                    "VALUES (?, ?)";
+            $stmt = Connexion::getConnexion()->prepare($sql);
+            $stmt->bindParam(1, $LienIdBD);
+            $stmt->bindParam(2, $LienIdTheme);
+            $stmt->execute();
+												return 1;
         } catch (MySQLException $e) {
             die($e->retourneErreur());
         }
@@ -84,13 +129,13 @@ class ThemeManager {
     /**
      * Modifie les champs de la table à partir de son id
      * 
-     * @param Auteur $auteur
+     * @param Theme $theme
      * @return Objet de type PDOStatement
      */
-    public static function updAuteur($auteur) {
+    public static function updTheme($theme) {
         try {
-            $sql = "UPDATE auteurs SET aut_nom = '$auteur->aut_nom', " 
-                    . "WHERE aut_id = $auteur->aut_id";
+            $sql = "UPDATE themes SET th_intitule = '$theme->th_intitule', " 
+                    . "WHERE th_id = $theme->th_id";
             $result = Connexion::select($sql);
         } catch (MySQLException $e) {
             die($e->retourneErreur());
@@ -101,15 +146,15 @@ class ThemeManager {
     /**
      * Supprime un enregistrement dans la base
      * 
-     * @param Auteur $auteur
+     * @param Theme $theme
      * @return Objet de type PDOStatement
      */
-    public static function delAuteur($auteur) {
+    public static function delTheme($theme) {
         try {
-            if (!empty($auteur->aut_id)) {
-                $sql = "DELETE FROM auteurs WHERE aut_id = $auteur->aut_id";
-            } elseif (!empty($auteur->aut_nom)) {
-                $sql = "DELETE FROM auteurs WHERE aut_nom = '$auteur->aut_nom'";
+            if (!empty($theme->th_id)) {
+                $sql = "DELETE FROM themes WHERE th_id = $theme->th_id";
+            } elseif (!empty($theme->th_intitule)) {
+                $sql = "DELETE FROM themes WHERE th_intitule = '$theme->th_intitule'";
             }
             $result = Connexion::select($sql);
         } catch (MySQLException $e) {

@@ -1,7 +1,7 @@
 <div class="row">
 				<section>
 								<h3 id="ajout-auteur">Ajout d'un nouvel auteur :</h3>
-								<?php if (isset($msgAddAut) && $msgAddAut != '') echo "<p>$msgAddAut</p>";?>
+								<?php if (isset($msgAddAut) && $msgAddAut != '') echo "<span class=\"label label-warning\" >$msgAddAut</span>";?>
 								<form method="post" name="addAuteur">
 												<span>Auteur : <input type="text" name="nomAuteur" required placeholder="Nom de l'auteur">
 																<input type="submit" name="auteur" value="Ajouter"></span>

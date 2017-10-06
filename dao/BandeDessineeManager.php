@@ -12,7 +12,7 @@ class BandeDessineeManager {
         //PDO::query() retourne un objet PDOStatement, ou FALSE si une erreur survient. 
         // donc une exception est levée par la classe Connexion
         try {
-            $sql = 'SELECT * FROM bandesdessinees';
+            $sql = 'SELECT * FROM bandesdessinees ORDER BY bd_titre ASC';
             $result = Connexion::select($sql, PDO::FETCH_OBJ);
         } catch (MySQLException $e) {
             die($e->retourneErreur());
