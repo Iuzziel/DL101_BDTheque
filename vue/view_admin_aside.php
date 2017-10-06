@@ -6,17 +6,22 @@
 																<ul>
 																				<li>
 																								<a href="#ajout-auteur">
-																												<span class="fa fa-angle-double-right text-primary"></span>Ajout d'un auteur
+																												<span class="fa fa-angle-double-right text-primary gras">Gestion des auteur</span>
 																								</a>
 																				</li>
 																				<li>
 																								<a href="#ajout-bd">
-																												<span class="fa fa-angle-double-right text-primary"></span>Ajout d'une BD
+																												<span class="fa fa-angle-double-right text-primary gras" >Gestion des BD</span>
 																								</a>
 																				</li>
 																				<li>
 																								<a href="#commentaire">
-																												<span class="fa fa-angle-double-right text-primary"></span>Modération des commentaires
+																												<span class="fa fa-angle-double-right text-primary gras">Modération des commentaires</span>
+																								</a>
+																				</li>
+																				<li>
+																								<a href="#theme">
+																												<span class="fa fa-angle-double-right text-primary gras">Gestion des thèmes</span>
 																								</a>
 																				</li>
 																</ul>

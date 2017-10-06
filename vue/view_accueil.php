@@ -5,9 +5,10 @@
 				
 <div class="container">
 				<div class="row">
-								<ul>
+								<ul class="list-unstyled">
 								<?php foreach ($affichageListBD as $bd) : ?>
 												<div class="col-lg-4 col-sm-6">
+																<section class="vignetteAccueil">
 																<form action="" method="get">
 																				<input type="hidden" name="choix" value="detail" />
 																				<button id="btnCouv" type="submit" name="bd_id" value="<?= $bd->bd_id ?>">
@@ -20,6 +21,7 @@
 																								Titre : <?= $bd->bd_titre ?> <br/>
 																				</li>
 																</form>
+																</section>
 												</div><!--Fin de Col-->
 								<?php endforeach; ?>
 								</ul>
@@ -33,7 +35,7 @@
 												</form>
 								</div><!--Fin de Col-->
 								<div class="col-sm-4">
-												<span>Page - <?= (($indicePageOffset / 5) + 1) ?></span>
+												<span class="label label-default">Page - <?= (($indicePageOffset / 5) + 1) ?></span>
 								</div><!--Fin de Col-->
 								<div class="col-sm-4">
 												<form method="get">

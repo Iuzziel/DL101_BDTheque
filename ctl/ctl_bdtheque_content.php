@@ -26,6 +26,7 @@
     $varCtrlSql = 0;
 				$msgDelBD = "";
 				$msgAddBDTh = "";
+				$msgDelBDTh = "";
 				
     //////////////Partie Visiteur////////////
     // Vérification si on arrive d'un formulaire, et si oui alimentation des variables
@@ -147,6 +148,11 @@
         CommentaireManager::updCommentaire($detail_Com);
         $detail_Com = new Commentaire();
     }
+				// Annuler l'édition d'un commentaire
+    if (isset($_POST['comEdit']) && $_POST['comEdit'] == "Annuler"){
+        $detail_Com = new Commentaire();
+								$sChoix = 'admin';
+    }
     
     // Ajout d'une BD
     if (isset($_POST['BD']) && $_POST['BD'] == 'Ajouter') {
@@ -230,6 +236,11 @@
     }
     
     debug($sDebug, "\$sChoix=".$sChoix,'');
+				
+				// Vérif d'autorisation au cas ou les contrôles précédent seraient exploités.
+				if(isset($_SESSION['logon']) && $_SESSION['logon'] != 'ok' && $sChoix == 'admin'){
+								$sChoix = '';
+				}
     
     // Traitement des données
     switch ($sChoix) {
