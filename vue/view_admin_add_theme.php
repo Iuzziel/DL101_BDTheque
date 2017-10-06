@@ -35,9 +35,9 @@
 																<?php endforeach; ?>
 																</select>
 												</p>
-												<p>
+												<p><!--Inserer du javascript pour rendre la combo reactive au choix de la bd-->
 																Theme : <select name="id_theme">
-																<?php $rsAllTh = ThemeManager::getAllTheme(); ?>
+																<?php $rsAllTh = ThemeManager::getAllTheme(); ?><!--Inserer du javascript pour maj de la bdd, AJAX-->
 																<?php foreach ($rsAllTh as $thVal) : ?>
 																<option value="<?=$thVal->th_id?>"><?=$thVal->th_intitule?></option>
 																<?php endforeach; ?>
