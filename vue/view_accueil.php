@@ -28,16 +28,16 @@
 				</div><!--Fin de Row-->
 
 				<div class="row">
-								<div class="col-sm-4">
+								<div class="col-sm-4 centrer">
 												<form method="get" action="">
 																<input type="hidden" name="offset" value="<?= $indicePageOffset - 5 ?>" />
 																<input type="submit" value="Précédent" />
 												</form>
 								</div><!--Fin de Col-->
-								<div class="col-sm-4">
+								<div class="col-sm-4 centrer">
 												<span class="label label-default">Page - <?= (($indicePageOffset / 5) + 1) ?></span>
 								</div><!--Fin de Col-->
-								<div class="col-sm-4">
+								<div class="col-sm-4 centrer">
 												<form method="get">
 																<input type="hidden" name="offset" value="<?= $indicePageOffset + 5 ?>" />
 																<input type="submit" value="Suivant" />

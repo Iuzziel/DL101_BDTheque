@@ -32,10 +32,10 @@
 												</section>
 								</div><!--Fin Aside-->
 								<div class="col-sm-9">
-												<?php require('vue/view_admin_add_theme.php'); ?>
-												<?php require('vue/view_admin_add_auteur.php'); ?>
-												<?php require('vue/view_admin_add_bd.php'); ?>
-												<?php require('vue/view_admin_commentaire.php'); ?>
+												<?php	require('vue/view_admin_add_theme.php');	?>
+												<?php	require('vue/view_admin_add_auteur.php');	?>
+												<?php	require('vue/view_admin_add_bd.php');	?>
+												<?php	require('vue/view_admin_commentaire.php');	?>
 								</div>
 				</div><!--Fin de row-->
 </div><!--Fin Container-->

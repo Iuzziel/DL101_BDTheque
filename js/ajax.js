@@ -7,7 +7,7 @@ function callDB() {
 				xhr.open('POST', '../ctl/ctl_ajax.php');
 				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-				xhr.onreadystatechange = function() { // On gère ici une requête asynchrone
+				xhr.onreadystatechange = function () { // On gère ici une requête asynchrone
 								if (xhr.readyState === 4 && xhr.status === 200) { // Si le fichier est chargé sans erreur
 												var reponse = '';
 												//document.write('<br>-xhr.responseText-----<br>' + xhr.responseText);
@@ -24,10 +24,10 @@ function callDB() {
 												}
 
 												document.getElementById('listVille').innerHTML = '<span>' + reponse + '</span>'; // Et on affiche !
-												
+
 								} else if (xhr.readyState === 4 && xhr.status !== 200) { // En cas d'erreur !
-									alert('Une erreur est survenue !\n\nCode :' + xhr.status +
-											'\nTexte : ' + xhr.statusText);
+												alert('Une erreur est survenue !\n\nCode :' + xhr.status +
+																				'\nTexte : ' + xhr.statusText);
 								}
 				}
 }
