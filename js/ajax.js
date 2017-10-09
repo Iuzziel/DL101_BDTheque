@@ -1,10 +1,19 @@
-function callDB() {
-				//document.getElementById('listVille').innerHTML =
-				//                '<span>Recherche sur ' + codPost + '</span>';
+var selectBD = document.querySelector("#selectBD");
+
+selectBD.addEventListener("select", function (id) {
+				addChild(id);
+});
+
+/**
+	* Fonction qui appel la bdd, et renvoie les intitulées de themes associes a la bd 
+	* @param {int} id_bd
+	* @returns {undefined}
+	*/
+function callDB(id_bd) {
 				var xhr = new XMLHttpRequest();
 
-				//GET// xhr.open('GET', '../ctl/ctl_ajax.php');
-				xhr.open('POST', '../ctl/ctl_ajax.php');
+				//GET// xhr.open('GET', '../svc/svc_ajax.php');
+				xhr.open('POST', '../svc/svc_ajax.php');
 				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 				xhr.onreadystatechange = function () { // On gère ici une requête asynchrone
@@ -13,21 +22,23 @@ function callDB() {
 												//document.write('<br>-xhr.responseText-----<br>' + xhr.responseText);
 
 												if (xhr.responseText === 'null') {
-																reponse = 'Pas de ville correspondante !'
+																reponse = 'Pas de thème associé !'
 												} else {
 																// On transforme le JSON en tableau d'objet
 																var tableauObjet = JSON.parse(xhr.responseText);
 
 																for (node in tableauObjet) {
-																				reponse = reponse + tableauObjet[node].nom + ' ' + tableauObjet[node].codpost + '<br>';
+																				reponse = tableauObjet[node].codpost + '<br>';
+																				document.querySelector("#selectTheme").innerHTML = '<option>' + reponse + '</option>'; // Et on affiche !
 																}
 												}
 
-												document.getElementById('listVille').innerHTML = '<span>' + reponse + '</span>'; // Et on affiche !
 
 								} else if (xhr.readyState === 4 && xhr.status !== 200) { // En cas d'erreur !
 												alert('Une erreur est survenue !\n\nCode :' + xhr.status +
 																				'\nTexte : ' + xhr.statusText);
 								}
 				}
+				xhr.send('req=themes&id_bd=' + id_bd);
+
 }

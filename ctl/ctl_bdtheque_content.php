@@ -1,7 +1,6 @@
 <?php
 
 // Appel des fonctions externes
-include_once	('inc/modele.inc.php');
 include_once	('exp/mysqlexception.php');
 include_once	('dao/Connexion.php');
 include_once	('cls/Auteur.class.php');

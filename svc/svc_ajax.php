@@ -6,18 +6,20 @@ header('Access-Control-Allow-Origin: *');
 if	(!isset($_REQUEST['req']))	{
 				die("Le silence est d'or ...");
 }	else	{
-				require("dao/Connexion.php");
+				include_once('../inc/ini.inc.php');
+				//include_once('inc/vue.inc.php');
+				require("../exp/mysqlexception.php");
+				require("../dao/Connexion.php");
+				require("../dao/ThemeManager.php");
 
-				if	($_REQUEST['req']	==	'villes')	{
-								if	(isset($_REQUEST['codpost']))	{
-												$sql	=	"SELECT * FROM bandesdessinees ORDER BY bd_titre ASC";
+				if	($_REQUEST['req']	==	'themes')	{
+								if	(isset($_REQUEST['id_bd']))	{
+												$tmpId_bd	=	$_REQUEST['id_bd'];
+												$rs	=	ThemeManager::getBdTheme($tmpId_bd);
 								}	else	{
 												die("Le silence est d'or ...");
 								}
 				}
-				
-				$base = Connexion::getConnexion();
-				$rs	=	$base->query($sql);
 
 				if	(!$rs)	{
 								print	"PDO::errorInfo():";
@@ -26,14 +28,16 @@ if	(!isset($_REQUEST['req']))	{
 								die("Arret du traitement");
 				}
 				if	(!$rs)	{
-								die("Requete : cnx->query($slq, $base)"	.	mysql_error());
+								die("Requete : cnx->query()");
 				}
 
-				while	($e	=	mysql_fetch_assoc($rs))
-								$output[]	=	$e;
+				foreach	($rs	AS	$enr)	{
+								$output[]	=	$enr;
+				}
+
+				var_dump($output);
 
 				print(json_encode($output,	JSON_FORCE_OBJECT));
 }
-
 ?>
 
