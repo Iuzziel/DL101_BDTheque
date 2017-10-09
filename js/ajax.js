@@ -1,8 +1,7 @@
 var selectBD = document.querySelector("#selectBD");
 
 selectBD.addEventListener("change", function () {
-				console.log('select activé ' + selectBD.options[selectBD.options.selectedIndex].value);
-				callDB();
+				callBDTheme();
 });
 
 /**
@@ -10,11 +9,11 @@ selectBD.addEventListener("change", function () {
 	* @param {int} id_bd
 	* @returns {undefined}
 	*/
-function callDB() {
+function callBDTheme() {
 				var xhr = new XMLHttpRequest();
 
 				//GET// xhr.open('GET', '../svc/svc_ajax.php');
-				xhr.open('POST', '../svc/svc_ajax.php');
+				xhr.open('POST', 'svc/svc_ajax.php');
 				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 				xhr.onreadystatechange = function () { // On gère ici une requête asynchrone
@@ -28,10 +27,12 @@ function callDB() {
 												} else {
 																// On transforme le JSON en tableau d'objet
 																var tableauObjet = JSON.parse(xhr.responseText);
-																
+
 																var optionTheme = '';
-																for (node in tableauObjet) {
-																				optionTheme = optionTheme + '<option value="' + node + '">' + node + '</option>'; // Et on affiche !
+																var i = 0;
+																for (i in tableauObjet) {
+																				console.log(tableauObjet[i]);
+																				optionTheme = optionTheme + '<option value="' + tableauObjet[i].th_id + '">' + tableauObjet[i].th_intitule + '</option>'; // Et on affiche !
 																}
 																document.querySelector("#selectTheme").innerHTML = optionTheme;
 												}

@@ -16,7 +16,6 @@ class	Connexion	{
 								// singleton de la connexion
 								// empty détermine si une variable est considérée comme vide. Une variable est considérée comme vide si elle n'existe pas, ou si sa valeur équivaut à FALSE. La fonction empty() ne génère pas d'alerte si la variable n'existe pas. 
 								if	(empty(self::$cnx))	{
-												var_dump($_SERVER['DOCUMENT_ROOT']);
 												// Changer le nom de projet au deploiement
 												$fichier	=	$_SERVER['DOCUMENT_ROOT']	.	'/DL101_BDTheque/ini/param.ini.php';
 												if	(file_exists($fichier)	&&	is_file($fichier))	{

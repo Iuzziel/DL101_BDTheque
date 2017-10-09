@@ -72,7 +72,7 @@ class ThemeManager {
     public static function getBdTheme($LienIdBD) {
         try {
 												if (!empty($LienIdBD)) {
-																$sql = "SELECT th.th_intitule "
+																$sql = "SELECT th.th_id, th.th_intitule "
 																								. "FROM `themes` th "
 																								. "JOIN `liens_bd_themes` li "
 																								. "ON li.lien_themes_id = th.th_id "

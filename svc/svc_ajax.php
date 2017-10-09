@@ -32,12 +32,10 @@ if	(!isset($_REQUEST['req']))	{
 				}
 
 				foreach	($rs	AS	$enr)	{
-								$output[]	=	$enr->th_intitule;
+								$output[]	=	$enr;
 				}
 
-				var_dump($output);
-
-				print(json_encode($output,	JSON_FORCE_OBJECT));
+				print(json_encode($output, JSON_FORCE_OBJECT));
 }
 ?>
 
