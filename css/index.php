@@ -1,1 +1,1 @@
-<?= 'Le silence est d\'or...' ?>
+<?=	'Le silence est d\'or...'	?>

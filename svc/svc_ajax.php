@@ -35,7 +35,7 @@ if	(!isset($_REQUEST['req']))	{
 								$output[]	=	$enr;
 				}
 
-				print(json_encode($output, JSON_FORCE_OBJECT));
+				print(json_encode($output,	JSON_FORCE_OBJECT));
 }
 ?>
 
