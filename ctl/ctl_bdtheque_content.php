@@ -196,6 +196,7 @@ if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Supprimer')	{
 								foreach	($rsDelBD	AS	$valRsDelBD)	{
 												$tmpDelBD	=	BandeDessineeManager::delBandeDessinee($valRsDelBD);
 												unlink('img/'	.	$valRsDelBD->bd_image);
+												unlink('img/min/'	.	$valRsDelBD->bd_image);
 												Echo	"<section>BD "	.	$valRsDelBD->bd_titre	.	" supprimée.</section>";
 												$sChoix	=	'';
 								}

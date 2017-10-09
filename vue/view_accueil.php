@@ -12,7 +12,7 @@
 																								<form action="" method="get">
 																												<input type="hidden" name="choix" value="detail" />
 																												<button id="btnCouv" type="submit" name="bd_id" value="<?=	$bd->bd_id	?>">
-																																<img src="img/<?=	$bd->bd_image	?>" 
+																																<img src="img/<?php if(file_exists('img/min/'.$bd->bd_image)) { echo "min/$bd->bd_image"; }else{ echo "$bd->bd_image"; };	?>" 
 																																					alt="Couverture de <?=	$bd->bd_titre	?>" 
 																																					style="width:100px;height:136px;"/>
 																												</button>
