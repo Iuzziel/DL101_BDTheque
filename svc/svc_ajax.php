@@ -32,7 +32,7 @@ if	(!isset($_REQUEST['req']))	{
 				}
 
 				foreach	($rs	AS	$enr)	{
-								$output[]	=	$enr;
+								$output[]	=	$enr->th_intitule;
 				}
 
 				var_dump($output);

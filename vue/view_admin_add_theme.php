@@ -42,5 +42,5 @@
 												<input type="submit" name="affichAjoutBD" value="Supprimer le Thème lié a cette BD">
 								</form>
 				</section>
-				<script type="text/JavaScript" language="JavaScript" src="svc/svc_ajax.js"></script>
+				<script type="text/JavaScript" language="JavaScript" src="js/ajax.js"></script>
 </div><!--Fin de row-->

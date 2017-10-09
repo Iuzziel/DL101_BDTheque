@@ -1,7 +1,8 @@
 var selectBD = document.querySelector("#selectBD");
 
-selectBD.addEventListener("select", function (id) {
-				addChild(id);
+selectBD.addEventListener("change", function () {
+				console.log('select activé ' + selectBD.options[selectBD.options.selectedIndex].value);
+				callDB();
 });
 
 /**
@@ -9,7 +10,7 @@ selectBD.addEventListener("select", function (id) {
 	* @param {int} id_bd
 	* @returns {undefined}
 	*/
-function callDB(id_bd) {
+function callDB() {
 				var xhr = new XMLHttpRequest();
 
 				//GET// xhr.open('GET', '../svc/svc_ajax.php');
@@ -23,14 +24,16 @@ function callDB(id_bd) {
 
 												if (xhr.responseText === 'null') {
 																reponse = 'Pas de thème associé !'
+																document.querySelector("#selectTheme").innerHTML = '<option>' + reponse + '</option>';
 												} else {
 																// On transforme le JSON en tableau d'objet
 																var tableauObjet = JSON.parse(xhr.responseText);
-
+																
+																var optionTheme = '';
 																for (node in tableauObjet) {
-																				reponse = tableauObjet[node].codpost + '<br>';
-																				document.querySelector("#selectTheme").innerHTML = '<option>' + reponse + '</option>'; // Et on affiche !
+																				optionTheme = optionTheme + '<option value="' + node + '">' + node + '</option>'; // Et on affiche !
 																}
+																document.querySelector("#selectTheme").innerHTML = optionTheme;
 												}
 
 
@@ -39,6 +42,6 @@ function callDB(id_bd) {
 																				'\nTexte : ' + xhr.statusText);
 								}
 				}
-				xhr.send('req=themes&id_bd=' + id_bd);
+				xhr.send('req=themes&id_bd=' + selectBD.options[selectBD.options.selectedIndex].value);
 
 }
