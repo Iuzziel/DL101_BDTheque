@@ -44,5 +44,4 @@ function callBDTheme() {
 								}
 				}
 				xhr.send('req=themes&id_bd=' + selectBD.options[selectBD.options.selectedIndex].value);
-
 }

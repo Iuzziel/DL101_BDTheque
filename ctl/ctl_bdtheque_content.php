@@ -199,11 +199,22 @@ if	(isset($_POST['addBDTheme'])	&&	$_POST['addBDTheme']	==	'Ajouter')	{
 				if	(isset($_POST['id_bd'])	&&	isset($_POST['id_theme']))	{
 								ThemeManager::setLienTheme($_POST['id_bd'],	$_POST['id_theme']);
 								$msgAddBDTh	=	'Ajout de thème réussi';
+								$sChoix	=	'admin';
 				}	else	{
 								$msgAddBDTh	=	"Erreur dans l'ajout de thème";
 				}
 }
 
+// Supprimer le thème d'une BD
+if	(isset($_POST['delBDTheme'])	&&	$_POST['delBDTheme']	==	'Supprimer')	{
+				if	(isset($_POST['id_bd'])	&&	isset($_POST['id_theme']))	{
+								ThemeManager::delLienTheme($_POST['id_bd'],	$_POST['id_theme']);
+								$msgAddBDTh	=	'Suppression du lien entre cette bd et ce thème réussi';
+								$sChoix	=	'admin';
+				}	else	{
+								$msgAddBDTh	=	"Erreur dans la suppression de thème";
+				}
+}
 
 // Ajout d'un auteur
 if	(isset($_POST['auteur'])	&&	$_POST['auteur']	==	'Ajouter')	{

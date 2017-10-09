@@ -35,7 +35,7 @@
 																				<?php	endforeach;	?>
 																</select>
 												</p>
-												<p><!--Inserer du javascript pour rendre la combo reactive au choix de la bd-->
+												<p><!--Javascript pour rendre la combo reactive au choix de la bd-->
 																Theme : <select name="id_theme" id="selectTheme"></select>
 												</p>
 												<input type="hidden" name="delBDTheme" value="Supprimer">

@@ -126,6 +126,25 @@ class ThemeManager {
         }
     }
 
+				/**
+     * Supprime un enregistrement dans la table lienTheme
+     * 
+     * @param Theme $theme
+     * @return Objet de type PDOStatement
+     */
+    public static function delLienTheme($LienIdBD, $LienIdTheme) {
+        try {
+            $sql = "DELETE FROM liens_bd_themes WHERE lien_bd_id = ? AND lien_themes_id = ?";
+            $stmt = Connexion::getConnexion()->prepare($sql);
+            $stmt->bindParam(1, $LienIdBD);
+            $stmt->bindParam(2, $LienIdTheme);
+            $stmt->execute();
+												return 1;
+        } catch (MySQLException $e) {
+            die($e->retourneErreur());
+        }
+    }
+				
     /**
      * Modifie les champs de la table à partir de son id
      * 

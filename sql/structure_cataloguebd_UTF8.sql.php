@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `membres` (
 -- Contraintes pour la table `bandesdessinees`
 --
 ALTER TABLE `bandesdessinees`
-  ADD CONSTRAINT `fk_aut_bd` FOREIGN KEY (`bd_auteur_id`) REFERENCES `auteurs` (`aut_id`);
+  ADD CONSTRAINT `fk_aut_bd` FOREIGN KEY (`bd_auteur_id`) REFERENCES `auteurs` (`aut_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `commentaires`
@@ -126,4 +126,4 @@ ALTER TABLE `commentaires`
 --
 ALTER TABLE `liens_bd_themes`
   ADD CONSTRAINT `fk_bd_lien` FOREIGN KEY (`lien_bd_id`) REFERENCES `bandesdessinees` (`bd_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_themes_lien` FOREIGN KEY (`lien_themes_id`) REFERENCES `themes` (`th_id`);
+  ADD CONSTRAINT `fk_themes_lien` FOREIGN KEY (`lien_themes_id`) REFERENCES `themes` (`th_id`) ON DELETE CASCADE;

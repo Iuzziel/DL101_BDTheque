@@ -9,6 +9,7 @@
 				</section>
 				<section>
 								<h3 id="ajout-auteur">Supression d'un auteur :</h3>
+								<span>La suppression d'un auteur entraine la suppression des bandes dessinées qui lui sont liées</span>
 								<form method="post">
 												Auteur : <select name="id_auteur">
 												<?php $rsAllAut = AuteurManager::getAllAuteur(); ?>
