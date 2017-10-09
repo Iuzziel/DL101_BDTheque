@@ -6,7 +6,7 @@
 												<p>Titre : <input type="text" required name="titre" placeholder="Titre de la BD" /></p>
 												<p>Resume : <input type="text" required name="resume" placeholder="Résumé de la BD" /></p>
 												<input type="hidden" name="MAX_FILE_SIZE" value="15000000" />
-												<p>Couverture : <input type="file" required name="couverture" accept="image/*"/></p>
+												<p>Couverture (en .jpg) : <input type="file" required name="couverture" accept=".jpg"/></p>
 												<p>
 																Auteur : <select name="id_auteur">
 																				<?php	$rsAllAut	=	AuteurManager::getAllAuteur();	?>

@@ -158,6 +158,7 @@ if	(isset($_POST['comEdit'])	&&	$_POST['comEdit']	==	"Annuler")	{
 // Ajout d'une BD
 if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Ajouter')	{
 				$uploaddir	=	'img/';
+				$copieMini	=	'min/';
 				$uploadfile	=	$uploaddir	.	$_FILES['couverture']['name'];
 				$msgUpload	=	'';
 
@@ -175,6 +176,15 @@ if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Ajouter')	{
 								$msgUpload	=	'Erreur upload impossible.';
 								$sChoix	=	'admin';
 				}
+
+				// Création de miniature
+				list($width,	$height)	=	getimagesize($uploadfile);
+				$new_height	=	150;
+				$new_width	=	($width	/	$height)	*	$new_height;
+				$image_mini_tmp	=	imagecreatetruecolor($new_width,	$new_height);
+				$image_tmp	=	imagecreatefromjpeg($uploadfile);
+				imagecopyresampled($image_mini_tmp,	$image_tmp,	0,	0,	0,	0,	$new_width,	$new_height,	$width,	$height);
+				imagejpeg($image_mini_tmp,	$_SERVER['DOCUMENT_ROOT'] . '/DL101_BDTheque/'	.	$uploaddir	.	$copieMini . $_FILES['couverture']['name']);
 }
 
 // Suppression d'une BD
