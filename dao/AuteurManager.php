@@ -31,11 +31,17 @@ class	AuteurManager	{
 				public	static	function	getAuteur($auteur)	{
 								try	{
 												if	(!empty($auteur->aut_id))	{
-																$sql	=	"select * from auteurs where aut_id = $auteur->aut_id";
+																$sql	=	"select * from auteurs where aut_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$auteur->aut_id);
+																$stmt->execute();
 												}	elseif	(!empty($auteur->aut_nom))	{
-																$sql	=	"select * from auteurs where aut_nom = '$auteur->aut_nom'";
+																$sql	=	"select * from auteurs where aut_nom = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$auteur->aut_nom);
+																$stmt->execute();
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -50,9 +56,12 @@ class	AuteurManager	{
 				public	static	function	getAuteurNom($auteurID)	{
 								try	{
 												if	(!empty($auteurID))	{
-																$sql	=	"select * from auteurs where aut_id = $auteurID";
+																$sql	=	"select * from auteurs where aut_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$auteurID);
+																$stmt->execute();
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -88,10 +97,14 @@ class	AuteurManager	{
 					* @return Objet de type PDOStatement
 					*/
 				public	static	function	updAuteur($auteur)	{
-								try	{
-												$sql	=	"UPDATE auteurs SET aut_nom = '$auteur->aut_nom', "
-																				.	"WHERE aut_id = $auteur->aut_id";
-												$result	=	Connexion::select($sql);
+								try	{// Pas teste
+												$sql	=	"UPDATE auteurs SET aut_nom = ?, "
+																				.	"WHERE aut_id = ?";
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$auteur->aut_nom);
+												$stmt->bindParam(2,	$auteur->aut_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -107,11 +120,17 @@ class	AuteurManager	{
 				public	static	function	delAuteur($auteur)	{
 								try	{
 												if	(!empty($auteur->aut_id))	{
-																$sql	=	"DELETE FROM auteurs WHERE aut_id = $auteur->aut_id";
+																$sql	=	"DELETE FROM auteurs WHERE aut_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$auteur->aut_id);
+																$stmt->execute();
 												}	elseif	(!empty($auteur->aut_nom))	{
-																$sql	=	"DELETE FROM auteurs WHERE aut_nom = '$auteur->aut_nom'";
+																$sql	=	"DELETE FROM auteurs WHERE aut_nom = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$auteur->aut_nom);
+																$stmt->execute();
 												}
-												$result	=	Connexion::select($sql);
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}

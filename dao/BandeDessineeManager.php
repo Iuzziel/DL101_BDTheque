@@ -21,6 +21,23 @@ class	BandeDessineeManager	{
 				}
 
 				/**
+					* Retourne tous les noms de fichiers couverture, sert dans la vérif de l'upload.
+					* @return type
+					*/
+				public	static	function	getAllCouverture()	{
+								// Pas besoin de se connecter à la base, la classe Connexion le fera si besoin.
+								//PDO::query() retourne un objet PDOStatement, ou FALSE si une erreur survient. 
+								// donc une exception est levée par la classe Connexion
+								try	{
+												$sql	=	'SELECT bd_image FROM bandesdessinees';
+												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+								}	catch	(MySQLException	$e)	{
+												die($e->retourneErreur());
+								}
+								return	$result;
+				}
+
+				/**
 					* Retourne les $limit enregistrements de la table a partir de $offset exclue
 					* 
 					* @return BandeDessinee[]
@@ -49,11 +66,16 @@ class	BandeDessineeManager	{
 				public	static	function	getBandeDessinee($bandeDessinee)	{
 								try	{
 												if	(!empty($bandeDessinee->bd_id))	{
-																$sql	=	"select * from bandesdessinees where bd_id = $bandeDessinee->bd_id";
+																$sql	=	"select * from bandesdessinees where bd_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$bandeDessinee->bd_id);
 												}	elseif	(!empty($bandeDessinee->bd_titre))	{
-																$sql	=	"select * from bandesdessinees where bd_titre = '$bandeDessinee->bd_titre'";
+																$sql	=	"select * from bandesdessinees where bd_titre = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$bandeDessinee->bd_titre);
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -90,12 +112,19 @@ class	BandeDessineeManager	{
 					*/
 				public	static	function	updBandeDessinee($bandeDessinee)	{
 								try	{
-												$sql	=	"UPDATE bandesdessinees SET bd_titre = '$bandeDessinee->bd_titre', "
-																				.	"bd_resume = $bandeDessinee->bd_resume, "
-																				.	"bd_image = $bandeDessinee->bd_image, "
-																				.	"bd_auteur_id = $bandeDessinee->bd_auteur_id "
-																				.	"WHERE bd_id = $bandeDessinee->bd_id";
-												$result	=	Connexion::select($sql);
+												$sql	=	"UPDATE bandesdessinees SET bd_titre = ?, "
+																				.	"bd_resume = ?, "
+																				.	"bd_image = ?, "
+																				.	"bd_auteur_id = ? "
+																				.	"WHERE bd_id = ?";
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$bandeDessinee->bd_titre);
+												$stmt->bindParam(2,	$bandeDessinee->bd_resume);
+												$stmt->bindParam(3,	$bandeDessinee->bd_image);
+												$stmt->bindParam(4,	$bandeDessinee->bd_auteur_id);
+												$stmt->bindParam(5,	$bandeDessinee->bd_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -111,11 +140,16 @@ class	BandeDessineeManager	{
 				public	static	function	delBandeDessinee($bandeDessinee)	{
 								try	{
 												if	(!empty($bandeDessinee->bd_id))	{
-																$sql	=	"DELETE FROM bandesdessinees WHERE bd_id = $bandeDessinee->bd_id";
+																$sql	=	"DELETE FROM bandesdessinees WHERE bd_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$bandeDessinee->bd_id);
 												}	elseif	(!empty($bandeDessinee->bd_titre))	{
-																$sql	=	"DELETE FROM bandesdessinees WHERE bd_titre = '$bandeDessinee->bd_titre'";
+																$sql	=	"DELETE FROM bandesdessinees WHERE bd_titre = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$bandeDessinee->bd_titre);
 												}
-												$result	=	Connexion::select($sql);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}

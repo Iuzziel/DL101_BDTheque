@@ -27,4 +27,13 @@
 												<input type="submit" name="affichAjoutBD" value="Ajouter la BD">
 								</form>
 				</section>
+				<section>
+								<h3>Suppression d'une bande déssinée :</h3>
+								<a href="index.php?choix=" class="gras">Menu d'accueil avec suppression</a>
+								<p>
+												Vous allez être redirigé vers la page d'accueil. En selectionnant 
+												une bd vous afficherez les détails, et pourrez supprimer celle-ci 
+												depuis un bouton spécifique qui s'affichera au dessus de la couverture.
+								</p>
+				</section>
 </div><!--Fin de row-->

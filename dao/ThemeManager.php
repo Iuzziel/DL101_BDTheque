@@ -31,11 +31,16 @@ class	ThemeManager	{
 				public	static	function	getTheme($theme)	{
 								try	{
 												if	(!empty($theme->th_id))	{
-																$sql	=	"select * from themes where th_id = $theme->th_id";
+																$sql	=	"select * from themes where th_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$theme->th_id);
 												}	elseif	(!empty($theme->th_intitule))	{
-																$sql	=	"select * from themes where th_intitule = '$theme->th_intitule'";
+																$sql	=	"select * from themes where th_intitule = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$theme->th_intitule);
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -51,9 +56,12 @@ class	ThemeManager	{
 								$tmpMsg	=	'';
 								try	{
 												if	(!empty($themeID))	{
-																$sql	=	"select * from themes where th_id = $themeID";
+																$sql	=	"select * from themes where th_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$themeID);
+																$stmt->execute();
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -78,9 +86,12 @@ class	ThemeManager	{
 																								.	"ON li.lien_themes_id = th.th_id "
 																								.	"JOIN bandesdessinees bd "
 																								.	"ON li.lien_bd_id = bd.bd_id "
-																								.	"WHERE bd_id = $LienIdBD";
+																								.	"WHERE bd_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$LienIdBD);
+																$stmt->execute();
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -153,9 +164,13 @@ class	ThemeManager	{
 					*/
 				public	static	function	updTheme($theme)	{
 								try	{
-												$sql	=	"UPDATE themes SET th_intitule = '$theme->th_intitule', "
-																				.	"WHERE th_id = $theme->th_id";
-												$result	=	Connexion::select($sql);
+												$sql	=	"UPDATE themes SET th_intitule = ?, "
+																				.	"WHERE th_id = ?";
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$theme->th_intitule);
+												$stmt->bindParam(2,	$theme->th_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -171,11 +186,16 @@ class	ThemeManager	{
 				public	static	function	delTheme($theme)	{
 								try	{
 												if	(!empty($theme->th_id))	{
-																$sql	=	"DELETE FROM themes WHERE th_id = $theme->th_id";
+																$sql	=	"DELETE FROM themes WHERE th_id = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$theme->th_id);
 												}	elseif	(!empty($theme->th_intitule))	{
-																$sql	=	"DELETE FROM themes WHERE th_intitule = '$theme->th_intitule'";
+																$sql	=	"DELETE FROM themes WHERE th_intitule = ?";
+																$stmt	=	Connexion::getConnexion()->prepare($sql);
+																$stmt->bindParam(1,	$theme->th_intitule);
 												}
-												$result	=	Connexion::select($sql);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}

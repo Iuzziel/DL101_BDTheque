@@ -161,19 +161,30 @@ if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Ajouter')	{
 				$copieMini	=	'min/';
 				$uploadfile	=	$uploaddir	.	$_FILES['couverture']['name'];
 				$msgUpload	=	'';
-
-				if	(move_uploaded_file($_FILES['couverture']['tmp_name'],	$uploadfile))	{
-								$bdTemp	=	new	BandesDessinee();
-								$bdTemp->bd_titre	=	$_POST['titre'];
-								$bdTemp->bd_resume	=	$_POST['resume'];
-								$bdTemp->bd_auteur_id	=	$_POST['id_auteur'];
-								$bdTemp->bd_image	=	$_FILES['couverture']['name'];
-								BandeDessineeManager::setBandeDessinee($bdTemp);
-								ThemeManager::setLienTheme(Connexion::dernierId(),	$_POST['id_theme']);
-								$msgUpload	=	"Ajout de la BD réussi.";
-								$sChoix	=	'admin';
+				$tmpNewCouv	=	TRUE;
+				$tCouv	=	BandeDessineeManager::getAllCouverture();
+				foreach	($tCouv	AS	$valCouv)	{
+								if	($valCouv->bd_image	==	$_FILES['couverture']['name'])	{
+												$tmpNewCouv	=	FALSE;
+								}
+				}
+				if	($tmpNewCouv)	{
+								if	(move_uploaded_file($_FILES['couverture']['tmp_name'],	$uploadfile))	{
+												$bdTemp	=	new	BandesDessinee();
+												$bdTemp->bd_titre	=	$_POST['titre'];
+												$bdTemp->bd_resume	=	$_POST['resume'];
+												$bdTemp->bd_auteur_id	=	$_POST['id_auteur'];
+												$bdTemp->bd_image	=	$_FILES['couverture']['name'];
+												BandeDessineeManager::setBandeDessinee($bdTemp);
+												ThemeManager::setLienTheme(Connexion::dernierId(),	$_POST['id_theme']);
+												$msgUpload	=	"Ajout de la BD réussi.";
+												$sChoix	=	'admin';
+								}	else	{
+												$msgUpload	=	'Erreur upload impossible.';
+												$sChoix	=	'admin';
+								}
 				}	else	{
-								$msgUpload	=	'Erreur upload impossible.';
+								$msgUpload	=	'Erreur nom de couverture deja existant.';
 								$sChoix	=	'admin';
 				}
 
@@ -184,7 +195,7 @@ if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Ajouter')	{
 				$image_mini_tmp	=	imagecreatetruecolor($new_width,	$new_height);
 				$image_tmp	=	imagecreatefromjpeg($uploadfile);
 				imagecopyresampled($image_mini_tmp,	$image_tmp,	0,	0,	0,	0,	$new_width,	$new_height,	$width,	$height);
-				imagejpeg($image_mini_tmp,	$_SERVER['DOCUMENT_ROOT'] . '/DL101_BDTheque/'	.	$uploaddir	.	$copieMini . $_FILES['couverture']['name']);
+				imagejpeg($image_mini_tmp,	$_SERVER['DOCUMENT_ROOT']	.	'/DL101_BDTheque/'	.	$uploaddir	.	$copieMini	.	$_FILES['couverture']['name']);
 }
 
 // Suppression d'une BD

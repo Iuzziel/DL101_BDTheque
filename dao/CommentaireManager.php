@@ -32,10 +32,14 @@ class	CommentaireManager	{
 								try	{
 												if	(!empty($bd))	{
 																$sql	=	"SELECT * FROM commentaires "
-																								.	"WHERE com_bd_id = $bd->bd_id "
+																								.	"WHERE com_bd_id = ? "
 																								.	"ORDER BY com_date DESC";
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$bd->bd_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
+												//$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -54,9 +58,12 @@ class	CommentaireManager	{
 								try	{
 												if	(!empty($commentaire))	{
 																$sql	=	"SELECT * FROM commentaires "
-																								.	"WHERE com_id = $commentaire->com_id";
+																								.	"WHERE com_id = ?";
 												}
-												$result	=	Connexion::select($sql,	PDO::FETCH_OBJ);
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$commentaire->com_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -79,7 +86,8 @@ class	CommentaireManager	{
 												$stmt->bindParam(2,	$commentaires->com_auteur);
 												$stmt->bindParam(3,	$commentaires->com_texte);
 												$stmt->execute();
-												return	1;
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
+												return 1;
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -93,11 +101,17 @@ class	CommentaireManager	{
 					*/
 				public	static	function	updCommentaire($commentaires)	{
 								try	{
-												$sql	=	"UPDATE commentaires SET com_mod = $commentaires->com_mod, "
-																				.	"com_auteur = '$commentaires->com_auteur', "
-																				.	"com_texte = '$commentaires->com_texte' "
-																				.	"WHERE com_id = $commentaires->com_id";
-												$result	=	Connexion::select($sql);
+												$sql	=	"UPDATE commentaires SET com_mod = ?, "
+																				.	"com_auteur = ?, "
+																				.	"com_texte = ? "
+																				.	"WHERE com_id = ?";
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$commentaires->com_mod);
+												$stmt->bindParam(2,	$commentaires->com_auteur);
+												$stmt->bindParam(3,	$commentaires->com_texte);
+												$stmt->bindParam(4,	$commentaires->com_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
@@ -113,9 +127,12 @@ class	CommentaireManager	{
 				public	static	function	delCommentaire($commentaires)	{
 								try	{
 												if	(!empty($commentaires->com_id))	{
-																$sql	=	"DELETE FROM commentaires WHERE com_id = $commentaires->com_id";
+																$sql	=	"DELETE FROM commentaires WHERE com_id = ?";
 												}
-												$result	=	Connexion::select($sql);
+												$stmt	=	Connexion::getConnexion()->prepare($sql);
+												$stmt->bindParam(1,	$commentaires->com_id);
+												$stmt->execute();
+												$result	=	$stmt->fetchAll(PDO::FETCH_OBJ);
 								}	catch	(MySQLException	$e)	{
 												die($e->retourneErreur());
 								}
