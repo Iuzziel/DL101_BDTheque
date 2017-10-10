@@ -78,14 +78,14 @@ INSERT INTO `commentaires` (`com_id`, `com_bd_id`, `com_mod`, `com_date`, `com_a
 --
 
 INSERT INTO `themes` (`th_id`, `th_intitule`) VALUES
-(1, 'humour'),
-(2, 'heroic fantasy'),
-(3, 'adulte'),
-(4, 'enfant'),
-(5, 'sketchs'),
-(6, 'série'),
-(7, 'science fiction'),
-(8, 'médiéval'),
+(1, 'Humour'),
+(2, 'Heroic fantasy'),
+(3, 'Adulte'),
+(4, 'Enfant'),
+(5, 'Sketchs'),
+(6, 'Série'),
+(7, 'Science Fiction'),
+(8, 'Médiéval'),
 (9, 'Péplum'),
 (10, 'Policier');
 

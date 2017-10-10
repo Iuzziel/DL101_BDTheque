@@ -17,6 +17,14 @@ class	Connexion	{
 								// empty détermine si une variable est considérée comme vide. Une variable est considérée comme vide si elle n'existe pas, ou si sa valeur équivaut à FALSE. La fonction empty() ne génère pas d'alerte si la variable n'existe pas. 
 								if	(empty(self::$cnx))	{
 												// Changer le nom de projet au deploiement
+//												$srcPath	=	preg_replace('/html$/i',	'html/dl101',	$_SERVER['DOCUMENT_ROOT']);
+//												if	($srcPath	!=	$_SERVER['DOCUMENT_ROOT'])	{
+//																$fichier	=	$srcPath	.	'/ini/param.ini.php';
+//												}	else	{
+//																$fichier	=	$_SERVER['DOCUMENT_ROOT']	.	'/ini/param.ini.php';
+//												}
+												
+												// Si en local :
 												$fichier	=	$_SERVER['DOCUMENT_ROOT']	.	'/DL101_BDTheque/ini/param.ini.php';
 												if	(file_exists($fichier)	&&	is_file($fichier))	{
 																$config	=	parse_ini_file($fichier,	true);

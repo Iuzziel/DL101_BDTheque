@@ -195,6 +195,16 @@ if	(isset($_POST['BD'])	&&	$_POST['BD']	==	'Ajouter')	{
 				$image_mini_tmp	=	imagecreatetruecolor($new_width,	$new_height);
 				$image_tmp	=	imagecreatefromjpeg($uploadfile);
 				imagecopyresampled($image_mini_tmp,	$image_tmp,	0,	0,	0,	0,	$new_width,	$new_height,	$width,	$height);
+
+				// Sur serv de prod :
+//				$srcPath	=	preg_replace('/html$/i',	'html/dl101',	$_SERVER['DOCUMENT_ROOT']);
+//				if	($srcPath	!=	$_SERVER['DOCUMENT_ROOT'])	{
+//								imagejpeg($image_mini_tmp,	$srcPath	.	'/'	.	$uploaddir	.	$copieMini	.	$_FILES['couverture']['name']);
+//				}	else	{
+//								imagejpeg($image_mini_tmp,	$_SERVER['DOCUMENT_ROOT']	.	'/'	.	$uploaddir	.	$copieMini	.	$_FILES['couverture']['name']);
+//				}
+				
+				// En local :
 				imagejpeg($image_mini_tmp,	$_SERVER['DOCUMENT_ROOT']	.	'/DL101_BDTheque/'	.	$uploaddir	.	$copieMini	.	$_FILES['couverture']['name']);
 }
 
